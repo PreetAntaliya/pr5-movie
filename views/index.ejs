@@ -8,6 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
+        body{
+            background-color: cyan;
+            background-image: url(/public/img/2.jpg);
+            background-size: cover;
+        }
         .add_data {
             margin: 15px 7px;
         }
@@ -32,6 +37,14 @@
             min-height: 500px;
             height: auto;
             flex-direction: column;
+            background-color: black;
+            color: wheat;
+            box-shadow: 7px 7px 15px 2px wheat;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card:hover{
+            box-shadow: 0px 0px 15px 5px cyan;
         }
 
         .card-body {
@@ -48,16 +61,19 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+        .modal{
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
     </style>
 </head>
 
 <body>
-    <h1>index</h1>
 
-
+    <div class="container mt-5">
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="btn btn-primary w-100 mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Add
     </button>
 
@@ -98,89 +114,68 @@
     </div>
 
 
-    <div>
-        <% if (record) { %>
-            <div class="d-flex flex-wrap">
-                <% record.map((val)=> { %>
-                    <div class="card col-2 m-2">
-                        <div class="movie_img position-relative">
-                            <img src="<%= val.img %>" class="card-img-top" alt="<%= val.name %>">
+   
+        <div>
+            <% if (record) { %>
+                <div class="d-flex flex-wrap">
+                    <% record.map((val)=> { %>
+                        <div class="card col-3 m-2" onmouseover="changeBoxShadow()" onmouseout="resetBoxShadow()">
+                            <div class="movie_img position-relative">
+                                <img src="<%= val.img %>" class="card-img-top" alt="<%= val.name %>">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title m-0">
+                                   Name : <%= val.name %>
+                                </h5>
+                                <p class="card-text m-0">
+                                    Description : <%= val.description %>
+                                </p>
+                                <span>
+                                    Price : <%= val.price %>
+                                </span><br>
+                                <a class="btn btn-danger w-100 my-2" href="/deleteData?id=<%= val.id %>">Delete</a>
+                                <a class="btn btn-primary w-100" href="/editData?id=<%= val._id %>">Edit</a>
+                                <!-- For edit modal pop up add it -->
+                                <!-- data-bs-toggle="modal" data-bs-target="#editModal" -->
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title">
-                               Name : <%= val.name %>
-                            </h5>
-                            <p class="card-text ">
-                                <%= val.description %>
-                            </p>
-                            <span>
-                                <%= val.price %>
-                            </span><br>
-                            <a class="btn btn-danger w-100 my-2" href="/deleteData?id=<%= val.id %>">Delete</a>
-                            <a class="btn btn-primary w-100" href="/editData?id=<%= val._id %>">Edit</a>
-                            <!-- For edit modal pop up add it -->
-                            <!-- data-bs-toggle="modal" data-bs-target="#editModal" -->
-                        </div>
-                    </div>
-                    <% }) %>
-            </div>
-            <% } else { %>
-                <p>No records found</p>
-                <% } %>
-    </div>
-
-    <!-- MOdel for Edit data -->
-
-
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Data</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <% }) %>
                 </div>
-                <div class="modal-body">
-                    <!-- Check if 'record' is defined before rendering the form -->
-                    <% if (record && record.length> 0) { %>
-                        <% record.forEach((movie)=> { %>
-                            <form method="post" action="/movieUpdate" enctype="multipart/form-data">
-                                <input type="text" name="id" value="<%= movie.id %>" />
-                                <div class="add_data">
-                                    <label for="name">Movie Name : </label>
-                                    <input type="text" name="name" id="name" value="<%= movie.name %>">
-                                </div>
-                                <div class="add_data">
-                                    <label for="img">Movie Img : </label>
-                                    <input type="file" name="img" id="img" value="<%= movie.img %>">
-                                </div>
-                                <div class="add_data">
-                                    <label for="description">Movie Description : </label>
-                                    <input type="text" name="description" id="description">
-                                </div>
-                                <div class="add_data">
-                                    <label for="price">Movie Price : </label>
-                                    <input type="text" name="price" id="price">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Update</button>
-                                </div>
-                            </form>
-                        <% }); %>
-                    <% } else { %>
-                        <p>No records found</p>
+                <% } else { %>
+                    <p>No records found</p>
                     <% } %>
-                </div>
-            </div>
         </div>
     </div>
 
+    
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+    <script>
+        function getRandomColor() {
+            const randomColor = () => Math.floor(Math.random() * 256);
+            return `rgb(${randomColor()}, ${randomColor()}, ${randomColor()})`;
+        }
+    
+        function changeBoxShadow() {
+            const box = document.querySelector('.card');
+            if (box) {
+                box.style.boxShadow = `0 0 10px 5px ${getRandomColor()}`;
+            }
+        }
+    
+        function resetBoxShadow() {
+            const box = document.querySelector('.card');
+            if (box) {
+                box.style.boxShadow = '7px 7px 15px 2px wheat';
+            }
+        }
+    
+        document.addEventListener('DOMContentLoaded', function () {
+            // Your existing code inside DOMContentLoaded
+        });
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 
 </html>
