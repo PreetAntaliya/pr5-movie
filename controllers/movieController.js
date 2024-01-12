@@ -108,32 +108,58 @@ const editData = async(req,res) => {
         return false;
     }
 }
+const updateRecord = async (req, res) => {
+    try {
+        let updateFields = {
+            name: req.body.name,
+            phone: req.body.phone,
+            description: req.body.description,
+            price: req.body.price,
+        };
 
-const updateRecord = async(req,res) => {
-    try{
-        if(req.file){
+        if (req.file) {
             let old = await movieModel.findById(req.body.id);
             fs.unlinkSync(old.img);
-            let up = await movieModel.findByIdAndUpdate(req.body.id,{
-                name : req.body.name,
-                img : req.file.path,
-                phone : req.body.phone,
-                description : req.body.description,
-                price : req.body.price,
-            });
-            console.log(up);
-            if(up){
-                console.log("record update");
-                return res.redirect('/');
-            }
-        }else{
-
+            updateFields.img = req.file.path;
         }
-    }catch(err){
+
+        let up = await movieModel.findByIdAndUpdate(req.body.id, updateFields);
+
+        if (up) {
+            console.log("Record update");
+            return res.redirect('/');
+        }
+    } catch (err) {
         console.log(err);
-        return false;
+        return res.status(500).send("Internal Server Error");
     }
-}
+};
+
+// const updateRecord = async(req,res) => {
+//     try{
+//         if(req.file){
+//             let old = await movieModel.findById(req.body.id);
+//             fs.unlinkSync(old.img);
+//             let up = await movieModel.findByIdAndUpdate(req.body.id,{
+//                 name : req.body.name,
+//                 img : req.file.path,
+//                 phone : req.body.phone,
+//                 description : req.body.description,
+//                 price : req.body.price,
+//             });
+//             console.log(up);
+//             if(up){
+//                 console.log("record update");
+//                 return res.redirect('/');
+//             }
+//         }else{
+
+//         }
+//     }catch(err){
+//         console.log(err);
+//         return false;
+//     }
+// }
 
 module.exports = {
   viewMovie,
