@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        .add_data {
+            margin: 15px 7px;
+        }
+
+        .add_data input {
+            padding: 3px 7px;
+            border: none;
+            border-bottom: 2px solid cyan;
+            outline: none;
+        }
+
+        .add_data input[type=file] {
+            border: none !important;
+        }
+
+        .movie_img {
+            width: 100%;
+            height: 220px;
+        }
+
+        .card {
+            min-height: 500px;
+            height: auto;
+            flex-direction: column;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .movie_img img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <center>
+        
+        <div class="modal-content w-25 mt-5">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 w-100 bg-danger text-white rounded p-2 mt-5" id="exampleModalLabel">Add Data</h1>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/updateRecord" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="<%= single.id%>">
+                    <div class="add_data">
+                        <label for="name">Movie Name : </label>
+                        <input type="text" name="name" id="name" value="<%= single.name %>">
+                    </div>
+                    <div class="add_data">
+                        <label for="img">Movie Img : </label>
+                        <input type="file" name="img" id="img" value="<%= single.img%>">
+                    </div>
+                    
+                    <div class="add_data">
+                        <label for="description">Movie Description : </label>
+                        <input type="text" name="description" id="description" value="<%= single.description%>">
+                    </div>
+                    <div class="add_data">
+                        <label for="price">Movie Price : </label>
+                        <input type="text" name="price" id="price" value="<%= single.price%>">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </center>
+</body>
+</html>
