@@ -13,31 +13,6 @@ const viewMovie = async (req, res) => {
     return res.status(500).send("Internal Server Error");
   }
 };
-
-// const viewMovie = async (req, res) => {
-//     try {
-//       let record = await movieModel.find({});
-//       let single = null; // Initialize single to null
-  
-//       // Check if query parameter 'id' is present and try to find the movie
-//       if (req.query.id) {
-//         single = await movieModel.findById(req.query.id);
-  
-//         // Check if the movie with the given ID exists
-//         if (!single) {
-//           return res.status(404).send('Movie not found');
-//         }
-//       }
-  
-//       return res.render("index", {
-//         record,
-//         single
-//       });
-//     } catch (err) {
-//       console.log(err);
-//       return res.status(500).send("Internal Server Error");
-//     }
-//   };
   
 const addMovie = async (req, res) => {
   try {
@@ -80,24 +55,6 @@ const deleteMovie = async (req, res) => {
   }
 };
 
-
-// const editData = async (req, res) => {
-//     try {
-//         let id = req.query.id;
-//         let single = await movieModel.findById(id);
-
-//         // Check if the movie with the given ID exists
-//         if (!single) {
-//             return res.status(404).send('Movie not found');
-//         }
-
-//         return res.render('index', { record: [single] }); // Pass the movie as a single-element array
-//     } catch (err) {
-//         console.log(err);
-//         return res.status(500).send('Internal Server Error');
-//     }
-// };
-
 const editData = async(req,res) => {
     try{
         let id=  req.query.id;
@@ -134,32 +91,6 @@ const updateRecord = async (req, res) => {
         return res.status(500).send("Internal Server Error");
     }
 };
-
-// const updateRecord = async(req,res) => {
-//     try{
-//         if(req.file){
-//             let old = await movieModel.findById(req.body.id);
-//             fs.unlinkSync(old.img);
-//             let up = await movieModel.findByIdAndUpdate(req.body.id,{
-//                 name : req.body.name,
-//                 img : req.file.path,
-//                 phone : req.body.phone,
-//                 description : req.body.description,
-//                 price : req.body.price,
-//             });
-//             console.log(up);
-//             if(up){
-//                 console.log("record update");
-//                 return res.redirect('/');
-//             }
-//         }else{
-
-//         }
-//     }catch(err){
-//         console.log(err);
-//         return false;
-//     }
-// }
 
 module.exports = {
   viewMovie,
